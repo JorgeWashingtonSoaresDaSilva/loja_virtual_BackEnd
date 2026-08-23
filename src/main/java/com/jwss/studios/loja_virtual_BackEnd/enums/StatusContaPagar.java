@@ -1,13 +1,16 @@
 package com.jwss.studios.loja_virtual_BackEnd.enums;
 
-public enum TipoEndereco {
+public enum StatusContaPagar {
 
-    COBRANCA("Cobrança"),
-    ENTREGA("Entrega");
+    COBRANCA("Pagar"),
+    VENCIDA("Vencida"),
+    ABERTA("Aberta"),
+    QUITADA("Quitada"),
+    NEGOCIADA("Renegociada");
 
     private String descricao;
 
-    private TipoEndereco(String descricao){
+    StatusContaPagar(String descricao) {
         this.descricao = descricao;
     }
 

@@ -1,5 +1,6 @@
 package com.jwss.studios.loja_virtual_BackEnd.model;
 
+
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -7,18 +8,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "marca_produto")
-@SequenceGenerator(name = "seq_marca_produto",sequenceName ="seq_marca_produto" ,allocationSize = 1,initialValue = 1)
-public class MarcaProduto  implements Serializable {
+@Table(name = "forma_pagamento")
+@SequenceGenerator(name = "seq_forma_pagamento",sequenceName ="seq_forma_pagamento" ,allocationSize = 1,initialValue = 1)
+public class  FormaPagamento  implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_marca_produto")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_forma_pagamento")
     private Long id;
-    @Column(nullable = false)
-    private  String nomeDesc;
+    private String Descricao;
 
     public Long getId() {
         return id;
@@ -28,18 +28,18 @@ public class MarcaProduto  implements Serializable {
         this.id = id;
     }
 
-    public String getNomeDesc() {
-        return nomeDesc;
+    public String getDescricao() {
+        return Descricao;
     }
 
-    public void setNomeDesc(String nomeDesc) {
-        this.nomeDesc = nomeDesc;
+    public void setDescricao(String descricao) {
+        Descricao = descricao;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        MarcaProduto that = (MarcaProduto) o;
+        FormaPagamento that = (FormaPagamento) o;
         return Objects.equals(id, that.id);
     }
 
