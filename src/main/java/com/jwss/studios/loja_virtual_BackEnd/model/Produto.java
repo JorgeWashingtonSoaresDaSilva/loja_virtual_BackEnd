@@ -24,7 +24,12 @@ public class Produto implements Serializable {
     private Boolean Ativo = Boolean.TRUE;
     @Column(columnDefinition = "text",length = 2000)
     private String descricao;
-    //Nota Item nota produto -associar
+
+   /* @ManyToOne
+    @JoinColumn(name = "nota_item_produto_id",nullable = false,
+    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "nota_item_produto_fk"))
+    private NotaItemProduto notaItemProduto; */
+
     private Double peso;
     private Double largura;
     private Double altura;
