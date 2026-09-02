@@ -21,6 +21,7 @@ public class Acesso implements GrantedAuthority {
     @Column(nullable = false)
     private String descricao;
 
+
     public long getId() {
         return id;
     }
@@ -36,6 +37,8 @@ public class Acesso implements GrantedAuthority {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

@@ -1,8 +1,6 @@
 package com.jwss.studios.loja_virtual_BackEnd.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serial;
 
@@ -11,16 +9,21 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa_juridica")
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "id",foreignKey = @ForeignKey(name = "pessoa_fk"))
 public class PessoaJuridica extends Pessoa implements Serializable {
     @Serial
     private static final long serialVersionUID =1L;
-
+    @Column(nullable = false)
     private String cnpj;
+    @Column(nullable = false)
     private String InscEstatual;
+
     private String InscMunicipal;
+    @Column(nullable = false)
     private String nomeFantasia;
+    @Column(nullable = false)
     private String razaoSocial;
+
     private String categoria;
 
     public String getCnpj() {

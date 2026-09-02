@@ -20,8 +20,22 @@ public class Usuario  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_usuario")
     private long id;
+    @Column(nullable = false)
     private String login;
+    @Column(nullable = false)
     private String senha;
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    private Pessoa pessoa;
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
     private LocalDate dataAtualSenha;
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "usuarios_acesso",uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id","acesso_id"},

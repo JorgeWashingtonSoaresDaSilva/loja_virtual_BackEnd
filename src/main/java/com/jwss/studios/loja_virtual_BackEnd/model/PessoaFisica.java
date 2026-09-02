@@ -12,8 +12,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa_fisica")
-@PrimaryKeyJoinColumn(name = "id")
-public class PessoaFisica extends Pessoa implements Serializable{
+@PrimaryKeyJoinColumn(name = "id",foreignKey = @ForeignKey(name = "pessoa_fk"))
+public class PessoaFisica extends Pessoa{
 
     @Serial
     private static final long serialVersionUID =1L;

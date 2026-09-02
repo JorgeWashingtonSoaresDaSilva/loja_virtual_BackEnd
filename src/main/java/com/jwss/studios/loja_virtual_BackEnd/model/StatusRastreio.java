@@ -19,9 +19,13 @@ public class StatusRastreio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_status_rastreio")
     private Long id;
+
     private  String centroDestribuicao;
+
     private  String cidade;
+
     private  String estado;
+
     private  String status;
     @ManyToOne
     @JoinColumn(name = "venda_compra_loja_virtual_id",nullable = false,
