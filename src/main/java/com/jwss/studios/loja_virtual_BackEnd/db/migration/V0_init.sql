@@ -1543,7 +1543,7 @@ ALTER TABLE ONLY public.status_rastreio
     ADD CONSTRAINT venda_compra_loja_virtual_fk FOREIGN KEY (venda_compra_loja_virtual_id) REFERENCES public.venda_compra_loja_virtual(id);
 
 
---
+
 -- TOC entry 3578 (class 0 OID 0)
 -- Dependencies: 4
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
