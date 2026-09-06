@@ -10,7 +10,7 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
---SET transaction_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -48,8 +48,8 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.acesso (
-                               id bigint NOT NULL,
-                               descricao character varying(255) NOT NULL
+    id bigint NOT NULL,
+    descricao character varying(255) NOT NULL
 );
 
 
@@ -61,11 +61,11 @@ ALTER TABLE public.acesso OWNER TO postgres;
 --
 
 CREATE TABLE public.avaliacao_produto (
-                                          id bigint NOT NULL,
-                                          nota integer NOT NULL,
-                                          pessoa_id bigint NOT NULL,
-                                          produto_id bigint NOT NULL,
-                                          descricao character varying(255) NOT NULL
+    id bigint NOT NULL,
+    nota integer NOT NULL,
+    pessoa_id bigint NOT NULL,
+    produto_id bigint NOT NULL,
+    descricao character varying(255) NOT NULL
 );
 
 
@@ -77,8 +77,8 @@ ALTER TABLE public.avaliacao_produto OWNER TO postgres;
 --
 
 CREATE TABLE public.categoria_produto (
-                                          id bigint NOT NULL,
-                                          nome_desc character varying(255) NOT NULL
+    id bigint NOT NULL,
+    nome_desc character varying(255) NOT NULL
 );
 
 
@@ -90,16 +90,16 @@ ALTER TABLE public.categoria_produto OWNER TO postgres;
 --
 
 CREATE TABLE public.conta_pagar (
-                                    id bigint NOT NULL,
-                                    descricao character varying(255) NOT NULL,
-                                    dt_pagamento date,
-                                    dt_vencimento date NOT NULL,
-                                    status character varying(255) NOT NULL,
-                                    valor_desconto numeric(38,2),
-                                    valor_total numeric(38,2) NOT NULL,
-                                    pessoa_id bigint NOT NULL,
-                                    pessoa_forn_id bigint NOT NULL,
-                                    CONSTRAINT conta_pagar_status_check CHECK (((status)::text = ANY ((ARRAY['COBRANCA'::character varying, 'VENCIDA'::character varying, 'ABERTA'::character varying, 'QUITADA'::character varying, 'ALUGUEL'::character varying, 'FUNCIONARIO'::character varying, 'NEGOCIADA'::character varying])::text[])))
+    id bigint NOT NULL,
+    descricao character varying(255) NOT NULL,
+    dt_pagamento date,
+    dt_vencimento date NOT NULL,
+    status character varying(255) NOT NULL,
+    valor_desconto numeric(38,2),
+    valor_total numeric(38,2) NOT NULL,
+    pessoa_id bigint NOT NULL,
+    pessoa_forn_id bigint NOT NULL,
+    CONSTRAINT conta_pagar_status_check CHECK (((status)::text = ANY ((ARRAY['COBRANCA'::character varying, 'VENCIDA'::character varying, 'ABERTA'::character varying, 'QUITADA'::character varying, 'ALUGUEL'::character varying, 'FUNCIONARIO'::character varying, 'NEGOCIADA'::character varying])::text[])))
 );
 
 
@@ -111,15 +111,15 @@ ALTER TABLE public.conta_pagar OWNER TO postgres;
 --
 
 CREATE TABLE public.conta_receber (
-                                      id bigint NOT NULL,
-                                      dt_pagamento date,
-                                      valor_desconto numeric(38,2),
-                                      pessoa_id bigint NOT NULL,
-                                      descricao character varying(255) NOT NULL,
-                                      dt_vencimento date NOT NULL,
-                                      status character varying(255) NOT NULL,
-                                      valor_total numeric(38,2) NOT NULL,
-                                      CONSTRAINT conta_receber_status_check CHECK (((status)::text = ANY ((ARRAY['COBRANCA'::character varying, 'VENCIDA'::character varying, 'ABERTA'::character varying, 'QUITADA'::character varying])::text[])))
+    id bigint NOT NULL,
+    dt_pagamento date,
+    valor_desconto numeric(38,2),
+    pessoa_id bigint NOT NULL,
+    descricao character varying(255) NOT NULL,
+    dt_vencimento date NOT NULL,
+    status character varying(255) NOT NULL,
+    valor_total numeric(38,2) NOT NULL,
+    CONSTRAINT conta_receber_status_check CHECK (((status)::text = ANY ((ARRAY['COBRANCA'::character varying, 'VENCIDA'::character varying, 'ABERTA'::character varying, 'QUITADA'::character varying])::text[])))
 );
 
 
@@ -131,11 +131,11 @@ ALTER TABLE public.conta_receber OWNER TO postgres;
 --
 
 CREATE TABLE public.cupom_desconto (
-                                       id bigint NOT NULL,
-                                       valor_porcentagem_desconto numeric(38,2),
-                                       valor_real_desconto numeric(38,2),
-                                       cod_descricao character varying(255) NOT NULL,
-                                       data_validade_cupom date NOT NULL
+    id bigint NOT NULL,
+    valor_porcentagem_desconto numeric(38,2),
+    valor_real_desconto numeric(38,2),
+    cod_descricao character varying(255) NOT NULL,
+    data_validade_cupom date NOT NULL
 );
 
 
@@ -147,17 +147,17 @@ ALTER TABLE public.cupom_desconto OWNER TO postgres;
 --
 
 CREATE TABLE public.endereco (
-                                 id bigint NOT NULL,
-                                 bairro character varying(255) NOT NULL,
-                                 cep character varying(255) NOT NULL,
-                                 cidade character varying(255) NOT NULL,
-                                 complemento character varying(255) NOT NULL,
-                                 numero character varying(255),
-                                 rua_lugra character varying(255) NOT NULL,
-                                 tipo_endereco character varying(255) NOT NULL,
-                                 uf character varying(255) NOT NULL,
-                                 pessoa_id bigint NOT NULL,
-                                 CONSTRAINT endereco_tipo_endereco_check CHECK (((tipo_endereco)::text = ANY ((ARRAY['COBRANCA'::character varying, 'ENTREGA'::character varying])::text[])))
+    id bigint NOT NULL,
+    bairro character varying(255) NOT NULL,
+    cep character varying(255) NOT NULL,
+    cidade character varying(255) NOT NULL,
+    complemento character varying(255) NOT NULL,
+    numero character varying(255),
+    rua_lugra character varying(255) NOT NULL,
+    tipo_endereco character varying(255) NOT NULL,
+    uf character varying(255) NOT NULL,
+    pessoa_id bigint NOT NULL,
+    CONSTRAINT endereco_tipo_endereco_check CHECK (((tipo_endereco)::text = ANY ((ARRAY['COBRANCA'::character varying, 'ENTREGA'::character varying])::text[])))
 );
 
 
@@ -169,8 +169,8 @@ ALTER TABLE public.endereco OWNER TO postgres;
 --
 
 CREATE TABLE public.forma_pagamento (
-                                        id bigint NOT NULL,
-                                        descricao character varying(255) NOT NULL
+    id bigint NOT NULL,
+    descricao character varying(255) NOT NULL
 );
 
 
@@ -182,10 +182,10 @@ ALTER TABLE public.forma_pagamento OWNER TO postgres;
 --
 
 CREATE TABLE public.imagem_produto (
-                                       id bigint NOT NULL,
-                                       imagem_miniatura text NOT NULL,
-                                       imagem_original text NOT NULL,
-                                       protudo_id bigint NOT NULL
+    id bigint NOT NULL,
+    imagem_miniatura text NOT NULL,
+    imagem_original text NOT NULL,
+    protudo_id bigint NOT NULL
 );
 
 
@@ -197,10 +197,10 @@ ALTER TABLE public.imagem_produto OWNER TO postgres;
 --
 
 CREATE TABLE public.item_venda_loja (
-                                        id bigint NOT NULL,
-                                        produto_id bigint NOT NULL,
-                                        venda_compra_loja_virtual_id bigint NOT NULL,
-                                        quantidade double precision NOT NULL
+    id bigint NOT NULL,
+    produto_id bigint NOT NULL,
+    venda_compra_loja_virtual_id bigint NOT NULL,
+    quantidade double precision NOT NULL
 );
 
 
@@ -212,8 +212,8 @@ ALTER TABLE public.item_venda_loja OWNER TO postgres;
 --
 
 CREATE TABLE public.marca_produto (
-                                      id bigint NOT NULL,
-                                      nome_desc character varying(255) NOT NULL
+    id bigint NOT NULL,
+    nome_desc character varying(255) NOT NULL
 );
 
 
@@ -225,16 +225,16 @@ ALTER TABLE public.marca_produto OWNER TO postgres;
 --
 
 CREATE TABLE public.nota_fiscal_compra (
-                                           id bigint NOT NULL,
-                                           data_compra date NOT NULL,
-                                           descricao_obs character varying(255),
-                                           nuemro_nota character varying(255) NOT NULL,
-                                           serie_nota character varying(255) NOT NULL,
-                                           valor_desconto numeric(38,2),
-                                           valor_icms numeric(38,2) NOT NULL,
-                                           valor_total numeric(38,2) NOT NULL,
-                                           conta_pagar_id bigint NOT NULL,
-                                           pessoa_id bigint NOT NULL
+    id bigint NOT NULL,
+    data_compra date NOT NULL,
+    descricao_obs character varying(255),
+    nuemro_nota character varying(255) NOT NULL,
+    serie_nota character varying(255) NOT NULL,
+    valor_desconto numeric(38,2),
+    valor_icms numeric(38,2) NOT NULL,
+    valor_total numeric(38,2) NOT NULL,
+    conta_pagar_id bigint NOT NULL,
+    pessoa_id bigint NOT NULL
 );
 
 
@@ -246,13 +246,13 @@ ALTER TABLE public.nota_fiscal_compra OWNER TO postgres;
 --
 
 CREATE TABLE public.nota_fiscal_venda (
-                                          id bigint NOT NULL,
-                                          numero character varying(255) NOT NULL,
-                                          pdf text NOT NULL,
-                                          serie character varying(255) NOT NULL,
-                                          tipo character varying(255) NOT NULL,
-                                          xml text NOT NULL,
-                                          venda_compra_loja_virtual_id bigint NOT NULL
+    id bigint NOT NULL,
+    numero character varying(255) NOT NULL,
+    pdf text NOT NULL,
+    serie character varying(255) NOT NULL,
+    tipo character varying(255) NOT NULL,
+    xml text NOT NULL,
+    venda_compra_loja_virtual_id bigint NOT NULL
 );
 
 
@@ -264,10 +264,10 @@ ALTER TABLE public.nota_fiscal_venda OWNER TO postgres;
 --
 
 CREATE TABLE public.nota_item_produto (
-                                          id bigint NOT NULL,
-                                          quantidade double precision NOT NULL,
-                                          nota_fiscal_compra_id bigint NOT NULL,
-                                          produto_id bigint NOT NULL
+    id bigint NOT NULL,
+    quantidade double precision NOT NULL,
+    nota_fiscal_compra_id bigint NOT NULL,
+    produto_id bigint NOT NULL
 );
 
 
@@ -279,11 +279,11 @@ ALTER TABLE public.nota_item_produto OWNER TO postgres;
 --
 
 CREATE TABLE public.pessoa (
-                               id bigint NOT NULL,
-                               email character varying(255) NOT NULL,
-                               enderecos bytea[],
-                               nome character varying(255) NOT NULL,
-                               telefone character varying(255) NOT NULL
+    id bigint NOT NULL,
+    email character varying(255) NOT NULL,
+    enderecos bytea[],
+    nome character varying(255) NOT NULL,
+    telefone character varying(255) NOT NULL
 );
 
 
@@ -295,9 +295,9 @@ ALTER TABLE public.pessoa OWNER TO postgres;
 --
 
 CREATE TABLE public.pessoa_fisica (
-                                      cpf character varying(255) NOT NULL,
-                                      data_nascimento date,
-                                      id bigint NOT NULL
+    cpf character varying(255) NOT NULL,
+    data_nascimento date,
+    id bigint NOT NULL
 );
 
 
@@ -309,13 +309,13 @@ ALTER TABLE public.pessoa_fisica OWNER TO postgres;
 --
 
 CREATE TABLE public.pessoa_juridica (
-                                        insc_estatual character varying(255) NOT NULL,
-                                        insc_municipal character varying(255),
-                                        categoria character varying(255),
-                                        cnpj character varying(255) NOT NULL,
-                                        nome_fantasia character varying(255) NOT NULL,
-                                        razao_social character varying(255) NOT NULL,
-                                        id bigint NOT NULL
+    insc_estatual character varying(255) NOT NULL,
+    insc_municipal character varying(255),
+    categoria character varying(255),
+    cnpj character varying(255) NOT NULL,
+    nome_fantasia character varying(255) NOT NULL,
+    razao_social character varying(255) NOT NULL,
+    id bigint NOT NULL
 );
 
 
@@ -327,22 +327,22 @@ ALTER TABLE public.pessoa_juridica OWNER TO postgres;
 --
 
 CREATE TABLE public.produto (
-                                id bigint NOT NULL,
-                                alerta_qtd_estoque boolean,
-                                ativo boolean,
-                                qtd_alerta_estoque integer,
-                                qtd_click integer,
-                                qtd_estoque integer NOT NULL,
-                                altura double precision NOT NULL,
-                                descricao text NOT NULL,
-                                largura double precision NOT NULL,
-                                link_youtube character varying(255),
-                                nome_prod character varying(255) NOT NULL,
-                                peso double precision NOT NULL,
-                                profundidade double precision NOT NULL,
-                                tipo_unidade character varying(255) NOT NULL,
-                                valor_venda numeric(38,2) NOT NULL,
-                                nota_item_produto_id bigint NOT NULL
+    id bigint NOT NULL,
+    alerta_qtd_estoque boolean,
+    ativo boolean,
+    qtd_alerta_estoque integer,
+    qtd_click integer,
+    qtd_estoque integer NOT NULL,
+    altura double precision NOT NULL,
+    descricao text NOT NULL,
+    largura double precision NOT NULL,
+    link_youtube character varying(255),
+    nome_prod character varying(255) NOT NULL,
+    peso double precision NOT NULL,
+    profundidade double precision NOT NULL,
+    tipo_unidade character varying(255) NOT NULL,
+    valor_venda numeric(38,2) NOT NULL,
+    nota_item_produto_id bigint NOT NULL
 );
 
 
@@ -654,12 +654,12 @@ ALTER SEQUENCE public.seq_venda_compra_loja_virtual OWNER TO postgres;
 --
 
 CREATE TABLE public.status_rastreio (
-                                        id bigint NOT NULL,
-                                        centro_destribuicao character varying(255),
-                                        cidade character varying(255),
-                                        estado character varying(255),
-                                        status character varying(255),
-                                        venda_compra_loja_virtual_id bigint NOT NULL
+    id bigint NOT NULL,
+    centro_destribuicao character varying(255),
+    cidade character varying(255),
+    estado character varying(255),
+    status character varying(255),
+    venda_compra_loja_virtual_id bigint NOT NULL
 );
 
 
@@ -671,11 +671,11 @@ ALTER TABLE public.status_rastreio OWNER TO postgres;
 --
 
 CREATE TABLE public.usuario (
-                                id bigint NOT NULL,
-                                data_atual_senha date,
-                                pessoa_id bigint NOT NULL,
-                                login character varying(255) NOT NULL,
-                                senha character varying(255) NOT NULL
+    id bigint NOT NULL,
+    data_atual_senha date,
+    pessoa_id bigint NOT NULL,
+    login character varying(255) NOT NULL,
+    senha character varying(255) NOT NULL
 );
 
 
@@ -687,8 +687,8 @@ ALTER TABLE public.usuario OWNER TO postgres;
 --
 
 CREATE TABLE public.usuarios_acesso (
-                                        usuario_id bigint NOT NULL,
-                                        acesso_id bigint NOT NULL
+    usuario_id bigint NOT NULL,
+    acesso_id bigint NOT NULL
 );
 
 
@@ -700,20 +700,20 @@ ALTER TABLE public.usuarios_acesso OWNER TO postgres;
 --
 
 CREATE TABLE public.venda_compra_loja_virtual (
-                                                  id bigint NOT NULL,
-                                                  data_entrega date NOT NULL,
-                                                  data_venda date NOT NULL,
-                                                  dia_entrega integer NOT NULL,
-                                                  valor_desconto numeric(38,2),
-                                                  valor_frete numeric(38,2) NOT NULL,
-                                                  valor_total numeric(38,2) NOT NULL,
-                                                  cupom_desconto_id bigint,
-                                                  endereco_id bigint NOT NULL,
-                                                  endereco_cobranca_id bigint NOT NULL,
-                                                  endereco_entrega_id bigint NOT NULL,
-                                                  forma_pagamento_id bigint NOT NULL,
-                                                  nota_fiscal_venda_id bigint NOT NULL,
-                                                  pessoa_id bigint NOT NULL
+    id bigint NOT NULL,
+    data_entrega date NOT NULL,
+    data_venda date NOT NULL,
+    dia_entrega integer NOT NULL,
+    valor_desconto numeric(38,2),
+    valor_frete numeric(38,2) NOT NULL,
+    valor_total numeric(38,2) NOT NULL,
+    cupom_desconto_id bigint,
+    endereco_id bigint NOT NULL,
+    endereco_cobranca_id bigint NOT NULL,
+    endereco_entrega_id bigint NOT NULL,
+    forma_pagamento_id bigint NOT NULL,
+    nota_fiscal_venda_id bigint NOT NULL,
+    pessoa_id bigint NOT NULL
 );
 
 
