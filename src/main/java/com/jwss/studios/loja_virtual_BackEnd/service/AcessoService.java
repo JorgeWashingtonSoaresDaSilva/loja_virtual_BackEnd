@@ -16,4 +16,9 @@ public class AcessoService {
         return  acessoRepository.save(acesso);
     }
 
+    public void  deletarAcesso(Long id){
+        // qualquer tipo de validação antes de salvar é feito aqui
+       acessoRepository.deleteById(id);
+    }
+
 }
