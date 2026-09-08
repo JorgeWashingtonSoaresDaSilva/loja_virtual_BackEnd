@@ -69,6 +69,15 @@
 			<artifactId>jackson-jaxrs-json-provider</artifactId>
 			<version>3.2.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+		</dependency>
+
 
 
 	</dependencies>
