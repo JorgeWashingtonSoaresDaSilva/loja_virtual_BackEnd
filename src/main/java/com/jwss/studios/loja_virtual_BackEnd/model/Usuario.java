@@ -15,11 +15,11 @@ import java.util.List;
 @SequenceGenerator(name = "seq_usuario",sequenceName = "seq_usuario",initialValue = 1,allocationSize = 1)
 public class Usuario  implements UserDetails {
     @Serial
-    private static final  long serialVersionUID = 1L;
+    private static final  Long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_usuario")
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String login;
     @Column(nullable = false)
