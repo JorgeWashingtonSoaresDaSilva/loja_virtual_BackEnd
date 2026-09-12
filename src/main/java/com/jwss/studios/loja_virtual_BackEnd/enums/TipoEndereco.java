@@ -7,7 +7,7 @@ public enum TipoEndereco {
 
     private String descricao;
 
-    private TipoEndereco(String descricao){
+    private TipoEndereco(String descricao) {
         this.descricao = descricao;
     }
 

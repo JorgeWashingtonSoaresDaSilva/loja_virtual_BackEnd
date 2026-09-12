@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "nota_fiscal_compra")
-@SequenceGenerator(name = "seq_nota_fiscal_compra",sequenceName ="seq_nota_fiscal_compra" ,allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_nota_fiscal_compra", sequenceName = "seq_nota_fiscal_compra", allocationSize = 1, initialValue = 1)
 public class NotaFiscalCompra implements Serializable {
 
     @Serial
@@ -20,11 +20,11 @@ public class NotaFiscalCompra implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_compra")
     private Long id;
     @Column(nullable = false)
-    private  String nuemroNota;
+    private String nuemroNota;
     @Column(nullable = false)
-    private  String serieNota;
+    private String serieNota;
 
-    private  String descricaoObs;
+    private String descricaoObs;
     @Column(nullable = false)
     private BigDecimal valorTotal;
 
@@ -34,13 +34,13 @@ public class NotaFiscalCompra implements Serializable {
     @Column(nullable = false)
     private LocalDate dataCompra;
     @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "pessoa_id",nullable = false,
-     foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    @JoinColumn(name = "pessoa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
 
     @ManyToOne
-    @JoinColumn(name = "conta_pagar_id",nullable = false,
-    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "conta_pagar_fk"))
+    @JoinColumn(name = "conta_pagar_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "conta_pagar_fk"))
     private ContaPagar contaPagar;
 
     public Long getId() {

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "endereco")
-@SequenceGenerator(name = "seq_endereco",sequenceName ="seq_endereco" ,allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_endereco", sequenceName = "seq_endereco", allocationSize = 1, initialValue = 1)
 public class Endereco implements Serializable {
 
     @Serial
@@ -33,7 +33,7 @@ public class Endereco implements Serializable {
     private String uf;
 
     @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

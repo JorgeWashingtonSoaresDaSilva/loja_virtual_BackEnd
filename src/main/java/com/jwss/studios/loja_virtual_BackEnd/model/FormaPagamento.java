@@ -9,8 +9,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "forma_pagamento")
-@SequenceGenerator(name = "seq_forma_pagamento",sequenceName ="seq_forma_pagamento" ,allocationSize = 1,initialValue = 1)
-public class  FormaPagamento  implements Serializable {
+@SequenceGenerator(name = "seq_forma_pagamento", sequenceName = "seq_forma_pagamento", allocationSize = 1, initialValue = 1)
+public class FormaPagamento implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

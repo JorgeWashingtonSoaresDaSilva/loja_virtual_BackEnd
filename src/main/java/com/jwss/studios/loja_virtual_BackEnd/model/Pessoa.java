@@ -10,14 +10,14 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@SequenceGenerator(name = "seq_pessoa",sequenceName = "seq_pessoa",initialValue = 1,allocationSize = 1)
-public abstract class Pessoa  implements Serializable {
+@SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa", initialValue = 1, allocationSize = 1)
+public abstract class Pessoa implements Serializable {
 
     @Serial
-    private static final  long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_pessoa")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
     private long id;
     @Column(nullable = false)
     private String nome;
@@ -27,7 +27,8 @@ public abstract class Pessoa  implements Serializable {
     private String telefone;
 
     private List<Endereco> enderecos = new ArrayList<Endereco>();
-    @OneToMany(mappedBy = "pessoa",orphanRemoval = true, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Endereco> getEnderecos() {
         return enderecos;
     }

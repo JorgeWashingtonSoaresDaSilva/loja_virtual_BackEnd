@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
@@ -14,8 +15,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class LojaVirtualBackEndApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LojaVirtualBackEndApplication.class, args);
-	}
+    public static void main(String[] args) {
+
+
+        SpringApplication.run(LojaVirtualBackEndApplication.class, args);
+        //System.out.println(new BCryptPasswordEncoder().encode("123"));
+    }
 
 }

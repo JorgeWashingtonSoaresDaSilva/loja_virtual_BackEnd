@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "imagem_produto")
-@SequenceGenerator(name = "seq_imagem_produto",sequenceName ="seq_imagem_produto" ,allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_imagem_produto", sequenceName = "seq_imagem_produto", allocationSize = 1, initialValue = 1)
 public class ImagemProduto implements Serializable {
 
     @Serial
@@ -17,13 +17,13 @@ public class ImagemProduto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_imagem_produto")
     private Long id;
-    @Column(columnDefinition = "text",nullable = false)
-    private  String imagemOriginal;
-    @Column(columnDefinition = "text",nullable = false)
-    private  String imagemMiniatura;
+    @Column(columnDefinition = "text", nullable = false)
+    private String imagemOriginal;
+    @Column(columnDefinition = "text", nullable = false)
+    private String imagemMiniatura;
     @ManyToOne
-    @JoinColumn(name = "protudo_id",nullable = false,
-            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "produto_fk"))
+    @JoinColumn(name = "protudo_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
     private Produto produto;
 
     public Long getId() {

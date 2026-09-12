@@ -10,13 +10,13 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "acesso")
-@SequenceGenerator(name = "seq_acesso",sequenceName = "seq_acesso",allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_acesso", sequenceName = "seq_acesso", allocationSize = 1, initialValue = 1)
 public class Acesso implements GrantedAuthority {
     @Serial
-    private static final  long serialVersionUID =1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_acesso")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_acesso")
     private Long id;
     @Column(nullable = false)
     private String descricao;
@@ -37,7 +37,6 @@ public class Acesso implements GrantedAuthority {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
 
 
     @Override

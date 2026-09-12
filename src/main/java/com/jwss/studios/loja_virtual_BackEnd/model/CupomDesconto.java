@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "cupom_desconto")
-@SequenceGenerator(name = "seq_cupom_desconto",sequenceName ="seq_cupom_desconto" ,allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_cupom_desconto", sequenceName = "seq_cupom_desconto", allocationSize = 1, initialValue = 1)
 public class CupomDesconto implements Serializable {
 
     @Serial
@@ -20,7 +20,7 @@ public class CupomDesconto implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cupom_desconto")
     private Long id;
     @Column(nullable = false)
-    private  String codDescricao;
+    private String codDescricao;
     private BigDecimal valorRealDesconto;
     private BigDecimal valorPorcentagemDesconto;
     @Column(nullable = false)

@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "produto")
-@SequenceGenerator(name = "seq_produto",sequenceName ="seq_produto" ,allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_produto", sequenceName = "seq_produto", allocationSize = 1, initialValue = 1)
 public class Produto implements Serializable {
 
     @Serial
@@ -26,12 +26,12 @@ public class Produto implements Serializable {
 
     private Boolean Ativo = Boolean.TRUE;
 
-    @Column(columnDefinition = "text",length = 2000,nullable = false)
+    @Column(columnDefinition = "text", length = 2000, nullable = false)
     private String descricao;
 
-   @ManyToOne
-    @JoinColumn(name = "nota_item_produto_id",nullable = false,
-    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "nota_item_produto_fk"))
+    @ManyToOne
+    @JoinColumn(name = "nota_item_produto_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_item_produto_fk"))
     private NotaItemProduto notaItemProduto;
     @Column(nullable = false)
     private Double peso;
@@ -40,7 +40,7 @@ public class Produto implements Serializable {
     @Column(nullable = false)
     private Double altura;
     @Column(nullable = false)
-    private Double profundidade ;
+    private Double profundidade;
     @Column(nullable = false)
     private BigDecimal valorVenda = BigDecimal.ZERO;
     @Column(nullable = false)

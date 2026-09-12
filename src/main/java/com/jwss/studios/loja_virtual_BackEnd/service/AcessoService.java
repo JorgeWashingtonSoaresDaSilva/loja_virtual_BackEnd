@@ -14,20 +14,22 @@ public class AcessoService {
     @Autowired
     private AcessoRepository acessoRepository;
 
-    public Acesso salvarAcesso(Acesso acesso){
+    public Acesso salvarAcesso(Acesso acesso) {
         // qualquer tipo de validação antes de salvar é feito aqui
-        return  acessoRepository.save(acesso);
-    }
-    public Optional<Acesso> obterAcessoPorId(Long id){
-        return acessoRepository.findById(id);
-    }
-    public List<Acesso> buscarPorDescricao(String descricao){
-       return acessoRepository.buscarAcessoDescricao(descricao);
+        return acessoRepository.save(acesso);
     }
 
-    public void  deletarAcesso(Long id){
+    public Optional<Acesso> obterAcessoPorId(Long id) {
+        return acessoRepository.findById(id);
+    }
+
+    public List<Acesso> buscarPorDescricao(String descricao) {
+        return acessoRepository.buscarAcessoDescricao(descricao);
+    }
+
+    public void deletarAcesso(Long id) {
         // qualquer tipo de validação antes de salvar é feito aqui
-       acessoRepository.deleteById(id);
+        acessoRepository.deleteById(id);
     }
 
 }

@@ -2,7 +2,7 @@ package com.jwss.studios.loja_virtual_BackEnd.model;
 
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Temporal;
+//import org.hibernate.annotations.Temporal;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -12,11 +12,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa_fisica")
-@PrimaryKeyJoinColumn(name = "id",foreignKey = @ForeignKey(name = "pessoa_fk"))
-public class PessoaFisica extends Pessoa{
+@PrimaryKeyJoinColumn(name = "id", foreignKey = @ForeignKey(name = "pessoa_fk"))
+public class PessoaFisica extends Pessoa {
 
     @Serial
-    private static final long serialVersionUID =1L;
+    private static final long serialVersionUID = 1L;
     @Column(nullable = false)
     private String CPF;
 

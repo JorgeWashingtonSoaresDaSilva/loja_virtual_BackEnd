@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "conta_pagar")
-@SequenceGenerator(name = "seq_conta_pagar",sequenceName ="seq_conta_pagar",allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_conta_pagar", sequenceName = "seq_conta_pagar", allocationSize = 1, initialValue = 1)
 public class ContaPagar implements Serializable {
 
     @Serial
@@ -34,12 +34,12 @@ public class ContaPagar implements Serializable {
     private BigDecimal valorDesconto;
 
     @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
 
     @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "pessoa_forn_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_forn_fk"))
-    private  Pessoa pessoa_fornecedor;
+    @JoinColumn(name = "pessoa_forn_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_forn_fk"))
+    private Pessoa pessoa_fornecedor;
 
     public Long getId() {
         return id;

@@ -1,6 +1,7 @@
 # Loja Virtual - BackEnd
 
-Este é o projeto de BackEnd para uma **Loja Virtual**, desenvolvido com foco em alta performance, segurança e escalabilidade.
+Este é o projeto de BackEnd para uma **Loja Virtual**, desenvolvido com foco em alta performance, segurança e
+escalabilidade.
 
 ## 🚀 Tecnologias Utilizadas
 

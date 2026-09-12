@@ -9,10 +9,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa_juridica")
-@PrimaryKeyJoinColumn(name = "id",foreignKey = @ForeignKey(name = "pessoa_fk"))
+@PrimaryKeyJoinColumn(name = "id", foreignKey = @ForeignKey(name = "pessoa_fk"))
 public class PessoaJuridica extends Pessoa implements Serializable {
     @Serial
-    private static final long serialVersionUID =1L;
+    private static final long serialVersionUID = 1L;
     @Column(nullable = false)
     private String cnpj;
     @Column(nullable = false)

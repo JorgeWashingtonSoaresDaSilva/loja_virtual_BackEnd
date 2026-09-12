@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "conta_receber")
-@SequenceGenerator(name = "seq_conta_receber",sequenceName ="seq_conta_receber",allocationSize = 1,initialValue = 1)
+@SequenceGenerator(name = "seq_conta_receber", sequenceName = "seq_conta_receber", allocationSize = 1, initialValue = 1)
 public class ContaReceber implements Serializable {
 
     @Serial
@@ -33,7 +33,7 @@ public class ContaReceber implements Serializable {
     private BigDecimal valorTotal;
     private BigDecimal valorDesconto;
     @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
 
     public Long getId() {
