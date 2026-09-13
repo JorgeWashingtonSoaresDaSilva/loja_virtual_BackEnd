@@ -22,6 +22,7 @@ import java.util.List;
 @RestControllerAdvice
 @ControllerAdvice
 public class ControleExcecoes extends ResponseEntityExceptionHandler {
+
     @ExceptionHandler({Exception.class,RuntimeException.class, Throwable.class})
     @Override
     protected @Nullable ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
@@ -46,6 +47,17 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
         objetoErroDTO.setCode(statusCode.value()+ "==> "+ statusEnum.getReasonPhrase());
         return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    // Exceção customizada para obterAcesso
+    @ExceptionHandler(ExcepitionMentoriaJava.class)
+    protected ResponseEntity<Object> handleExceptionCustom(ExcepitionMentoriaJava ex) {
+        ObjetoErroDTO objetoErroDTO = new ObjetoErroDTO();
+        objetoErroDTO.setErro(ex.getMessage());
+        objetoErroDTO.setCode(String.valueOf(HttpStatus.OK));
+
+        return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.OK);
+    }
+
+
     // Capitura erro na parte do banco
     @ExceptionHandler({DataIntegrityViolationException.class, ConstraintViolationException.class, SQLException.class})
     protected ResponseEntity<Object> handleExceptionDataIntegry(Exception ex){

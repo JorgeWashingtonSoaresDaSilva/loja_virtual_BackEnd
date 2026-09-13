@@ -41,8 +41,14 @@ public class JwtApiAuthenticacaoFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             // Garante que o contexto seja limpo caso o token esteja corrompido ou expirado
             SecurityContextHolder.clearContext();
+            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+            // Escreve a mensagem amigável para o cliente
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"Ocorreu um erro no sistema avise o administrador:\"}"+"\n"+ e.getMessage());
+            response.getWriter().flush();
+
         }
 
         // Continua o fluxo normal da requisição para chegar até o Controller correspondente

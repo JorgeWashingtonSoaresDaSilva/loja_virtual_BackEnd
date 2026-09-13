@@ -168,7 +168,7 @@ class LojaVirtualBackEndApplicationTests {
 
 
     @Test
-    public void testeCadastraAcesso() {
+    public void testeCadastraAcesso() throws ExcepitionMentoriaJava {
 
         Acesso acesso = new Acesso();
         acesso.setDescricao("ROLE_ADMIN");
