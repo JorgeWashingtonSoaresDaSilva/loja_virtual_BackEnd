@@ -1,6 +1,6 @@
 package com.jwss.studios.loja_virtual_BackEnd.controller;
 
-import com.jwss.studios.loja_virtual_BackEnd.ExcepitionMentoriaJava;
+import com.jwss.studios.loja_virtual_BackEnd.ExceptionMentoriaJava;
 import com.jwss.studios.loja_virtual_BackEnd.model.Acesso;
 import com.jwss.studios.loja_virtual_BackEnd.service.AcessoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @RestController
@@ -21,11 +20,11 @@ public class AcessoController {
 
     @ResponseBody// da retorno da API
     @PostMapping(value = "**/salvarAcesso") // Mapeando url para receber JSON
-    public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExcepitionMentoriaJava {// recebe o JSON converte para objeto
+    public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExceptionMentoriaJava {// recebe o JSON converte para objeto
       if (acesso.getId() == null){
           List<Acesso> acessos = acessoService.buscarPorDescricao(acesso.getDescricao().toUpperCase());
           if (!acessos.isEmpty()){
-              throw new ExcepitionMentoriaJava("Já existe acesso com a descrição: "+ acesso.getDescricao());
+              throw new ExceptionMentoriaJava("Já existe acesso com a descrição: "+ acesso.getDescricao());
           }
       }
 
@@ -49,11 +48,11 @@ public class AcessoController {
 
     @ResponseBody
     @GetMapping(value = "**/obterAcessoPorId/{id}")
-    public ResponseEntity<Acesso> obterAcessoPorId(@PathVariable("id") Long id) throws ExcepitionMentoriaJava, IOException {
+    public ResponseEntity<Acesso> obterAcessoPorId(@PathVariable("id") Long id) throws ExceptionMentoriaJava, IOException {
         Acesso acesso = acessoService.obterAcessoPorId(id).orElse(null);
         String msg = "Não encontrou Acesso com código:";
         if (acesso == null) {
-            throw new ExcepitionMentoriaJava(msg + id);
+            throw new ExceptionMentoriaJava(msg + id);
 
         }
 

@@ -18,7 +18,7 @@ public abstract class Pessoa implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
@@ -32,16 +32,19 @@ public abstract class Pessoa implements Serializable {
     public List<Endereco> getEnderecos() {
         return enderecos;
     }
+    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @JoinColumn(name = "empresa_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
 
     public void setEnderecos(List<Endereco> enderecos) {
         this.enderecos = enderecos;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,6 +71,16 @@ public abstract class Pessoa implements Serializable {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

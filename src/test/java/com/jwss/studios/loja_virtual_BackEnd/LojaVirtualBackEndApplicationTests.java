@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,17 +33,18 @@ class LojaVirtualBackEndApplicationTests {
     private AcessoRepository acessoRepository;
     @Autowired
     private WebApplicationContext wac;
-
+    String descricaoAcesso = "ROLE_COMPRADOR"+ Calendar.getInstance().getTimeInMillis();
     // Teste do end-point de salvar
     @Test
     public void testeRestApiCadastroAcesso() throws Exception {
         //Tras todas as informações e testes
+
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
         MockMvc mockMvc = builder.build();
         // criando dados de teste e salvando
         Acesso acesso = new Acesso();
 
-        acesso.setDescricao("ROLE_COMPRADOR");
+        acesso.setDescricao(descricaoAcesso);
         ObjectMapper objectMapper = new ObjectMapper();
 
         ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.post("/salvarAcesso")
@@ -168,16 +170,16 @@ class LojaVirtualBackEndApplicationTests {
 
 
     @Test
-    public void testeCadastraAcesso() throws ExcepitionMentoriaJava {
+    public void testeCadastraAcesso() throws ExceptionMentoriaJava {
 
         Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_ADMIN");
+        acesso.setDescricao(descricaoAcesso);
         // gravou no banco
         acesso = acessoController.salvarAcesso(acesso).getBody();
         //ID > 0
         Assertions.assertEquals(true, acesso.getId() > 0);
         // validar dados salvo da forma correta
-        Assertions.assertEquals("ROLE_ADMIN", acesso.getDescricao());
+        Assertions.assertEquals(descricaoAcesso, acesso.getDescricao());
 
         //Teste de carregamento
         Optional<Acesso> acesso1 = acessoRepository.findById(acesso.getId());

@@ -2,11 +2,11 @@ package com.jwss.studios.loja_virtual_BackEnd;
 
 import java.io.Serial;
 
-public class ExcepitionMentoriaJava extends Exception{
+public class ExceptionMentoriaJava extends Exception{
 
     @Serial
     private static final long serialVersionUID = 1L;
-    public ExcepitionMentoriaJava(String message ) {
+    public ExceptionMentoriaJava(String message ) {
         super(message);
     }
 }

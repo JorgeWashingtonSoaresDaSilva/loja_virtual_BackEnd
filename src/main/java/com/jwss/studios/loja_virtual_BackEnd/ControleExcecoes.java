@@ -48,8 +48,8 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     // Exceção customizada para obterAcesso
-    @ExceptionHandler(ExcepitionMentoriaJava.class)
-    protected ResponseEntity<Object> handleExceptionCustom(ExcepitionMentoriaJava ex) {
+    @ExceptionHandler(ExceptionMentoriaJava.class)
+    protected ResponseEntity<Object> handleExceptionCustom(ExceptionMentoriaJava ex) {
         ObjetoErroDTO objetoErroDTO = new ObjetoErroDTO();
         objetoErroDTO.setErro(ex.getMessage());
         objetoErroDTO.setCode(String.valueOf(HttpStatus.OK));
@@ -67,7 +67,12 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
             msg = "Erro de integridade do banco: "+((DataIntegrityViolationException)ex).getCause().getCause().getMessage();
         }
         if (ex instanceof ConstraintViolationException){
-            msg =  "Erro de chave estrngeira: " + ((ConstraintViolationException)ex).getCause().getCause().getMessage();
+            if (ex.getCause() != null) {
+                msg = ex.getCause().getMessage();
+            } else {
+                msg = ex.getMessage(); // Usa a mensagem da exceção principal se não houver causa
+            }
+            msg =  "Erro de chave estrngeira: " + msg;
         }
         if (ex instanceof SQLException){
             msg = "Erro de SQL do banco: "+((SQLException)ex).getCause().getCause().getMessage();

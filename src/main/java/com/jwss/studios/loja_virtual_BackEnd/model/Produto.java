@@ -53,7 +53,9 @@ public class Produto implements Serializable {
     private Boolean AlertaQtdEstoque = Boolean.FALSE;
 
     private Integer QtdClick = 0;
-
+    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
     public Long getId() {
         return id;
@@ -181,6 +183,14 @@ public class Produto implements Serializable {
 
     public void setNotaItemProduto(NotaItemProduto notaItemProduto) {
         this.notaItemProduto = notaItemProduto;
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
     }
 
     @Override

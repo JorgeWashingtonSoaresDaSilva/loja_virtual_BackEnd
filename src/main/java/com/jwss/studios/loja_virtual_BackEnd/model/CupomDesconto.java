@@ -25,6 +25,9 @@ public class CupomDesconto implements Serializable {
     private BigDecimal valorPorcentagemDesconto;
     @Column(nullable = false)
     private LocalDate dataValidadeCupom;
+    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
     public Long getId() {
         return id;
@@ -64,6 +67,14 @@ public class CupomDesconto implements Serializable {
 
     public void setDataValidadeCupom(LocalDate dataValidadeCupom) {
         this.dataValidadeCupom = dataValidadeCupom;
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
     }
 
     @Override

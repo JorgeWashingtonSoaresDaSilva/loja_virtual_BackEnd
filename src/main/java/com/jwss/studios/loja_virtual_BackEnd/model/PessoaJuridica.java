@@ -25,6 +25,9 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     private String razaoSocial;
 
     private String categoria;
+    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private PessoaJuridica empresa;
 
     public String getCnpj() {
         return cnpj;
@@ -72,6 +75,16 @@ public class PessoaJuridica extends Pessoa implements Serializable {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    @Override
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    @Override
+    public void setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
     }
 
     @Override
