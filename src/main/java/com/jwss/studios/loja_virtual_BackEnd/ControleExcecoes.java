@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,16 +31,20 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
         ObjetoErroDTO objetoErroDTO = new ObjetoErroDTO();
         String msg = "";
 
-        if (ex instanceof MethodArgumentNotValidException){
+        if (ex instanceof MethodArgumentNotValidException) {
 
             List<ObjectError> list = ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors();
 
-            for (ObjectError objectError : list){
+            for (ObjectError objectError : list) {
                 msg += objectError.getDefaultMessage() + "\n";
 
             }
+        }
+        if (ex instanceof HttpMessageNotReadableException) {
+            msg = "Não esta sendo enviado dados para corpo da requisição";
+
         }else {
-            msg = ex.getMessage();
+           msg = ex.getMessage();
         }
         objetoErroDTO.setErro(msg);
         // converte para antigo HttpStatus
@@ -64,7 +69,12 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
         ObjetoErroDTO objetoErroDTO = new ObjetoErroDTO();
         String msg = "";
         if (ex instanceof DataIntegrityViolationException){
-            msg = "Erro de integridade do banco: "+((DataIntegrityViolationException)ex).getCause().getCause().getMessage();
+            if (ex.getCause() != null) {
+                msg = ex.getCause().getMessage();
+            } else {
+                msg = ex.getMessage(); // Usa a mensagem da exceção principal se não houver causa
+            }
+            msg = "Erro de integridade do banco: "+msg;
         }
         if (ex instanceof ConstraintViolationException){
             if (ex.getCause() != null) {

@@ -1,5 +1,6 @@
 package com.jwss.studios.loja_virtual_BackEnd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jwss.studios.loja_virtual_BackEnd.enums.TipoEndereco;
 import jakarta.persistence.*;
 
@@ -31,7 +32,7 @@ public class Endereco implements Serializable {
     private String cidade;
     @Column(nullable = false)
     private String uf;
-
+    @JsonIgnore
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
