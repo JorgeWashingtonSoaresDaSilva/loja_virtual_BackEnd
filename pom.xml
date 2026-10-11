@@ -87,6 +87,12 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
         <!-- Migrações de Banco de Dados -->
         <dependency>
             <groupId>org.flywaydb</groupId>

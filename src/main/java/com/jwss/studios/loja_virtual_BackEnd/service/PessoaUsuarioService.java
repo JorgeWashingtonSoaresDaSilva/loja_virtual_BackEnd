@@ -22,11 +22,25 @@ public class PessoaUsuarioService {
     private PessoaRepository pessoaRepository;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ServiceSendEmail serviceSendEmail;
 
     @Transactional
     public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica){
+        // CORREÇÃO AQUI: Garante que os endereços possuam as referências obrigatórias
+        if (pessoaJuridica.getEnderecos() != null) {
+            for (int i = 0; i < pessoaJuridica.getEnderecos().size(); i++) {
+                // Vincula o endereço à Pessoa dona dele
+                pessoaJuridica.getEnderecos().get(i).setPessoa(pessoaJuridica);
+
+                // Vincula o endereço à Empresa (que neste caso de cadastro é a própria PJ)
+                pessoaJuridica.getEnderecos().get(i).setEmpresa(pessoaJuridica);
+            }
+        }
+
         pessoaJuridica =  pessoaRepository.save(pessoaJuridica);
         Usuario usuarioPj = usuarioRepository.findByPessoa(pessoaJuridica.getId(), pessoaJuridica.getEmail());
+
 
         if (usuarioPj == null){
             // consulta se tem uma constraint no banco
@@ -46,11 +60,26 @@ public class PessoaUsuarioService {
             // criptografa a senha para salvar no banco
             String senhaCriptografada = new BCryptPasswordEncoder().encode(senha);
             usuarioPj.setSenha(senhaCriptografada);
+
             // salva novo usuario no banco
             usuarioPj = usuarioRepository.save(usuarioPj);
 
             // cadastra o acesso novo usuario
             usuarioRepository.insereAcessoUserPj(usuarioPj.getId());
+           // mensagem do email
+            StringBuilder mensagemHtml = new StringBuilder();
+            mensagemHtml.append("<b>Segue abaixo seus dados de acesso para loja virtual</b>");
+            mensagemHtml.append("<b>Login:</b>"+pessoaJuridica.getEmail()+" <br/>");
+            mensagemHtml.append("<b>Senha: </b> "+senha+"<br/><br/>");
+            mensagemHtml.append("Obrigado!");
+
+            // fazer envio de email do login e senha
+          try {
+              serviceSendEmail.enviarEmailHtml("Acessso gerado para Loja Virtual",mensagemHtml.toString(), pessoaJuridica.getEmail());
+          }catch (Exception e){
+              e.printStackTrace();
+          }
+
 
 
         }

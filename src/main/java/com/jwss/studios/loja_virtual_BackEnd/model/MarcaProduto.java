@@ -19,7 +19,7 @@ public class MarcaProduto implements Serializable {
     private Long id;
     @Column(nullable = false)
     private String nomeDesc;
-    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
     private Pessoa empresa;
 

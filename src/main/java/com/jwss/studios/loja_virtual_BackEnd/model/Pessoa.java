@@ -25,16 +25,19 @@ public abstract class Pessoa implements Serializable {
     private String email;
     @Column(nullable = false)
     private String telefone;
+    @Column
+    private String tipoPessoa;
 
+    @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Endereco> enderecos = new ArrayList<Endereco>();
 
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Endereco> getEnderecos() {
         return enderecos;
     }
-    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
-    private PessoaJuridica empresa;
+    private Pessoa empresa;
 
     public void setEnderecos(List<Endereco> enderecos) {
         this.enderecos = enderecos;
@@ -72,15 +75,21 @@ public abstract class Pessoa implements Serializable {
         this.telefone = telefone;
     }
 
-    public PessoaJuridica getEmpresa() {
+    public Pessoa getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(PessoaJuridica empresa) {
+    public void setEmpresa(Pessoa empresa) {
         this.empresa = empresa;
     }
 
+    public String getTipoPessoa() {
+        return tipoPessoa;
+    }
 
+    public void setTipoPessoa(String tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
+    }
 
     @Override
     public boolean equals(Object o) {

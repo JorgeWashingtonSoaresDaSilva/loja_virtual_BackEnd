@@ -21,9 +21,9 @@ public class PessoaFisica extends Pessoa {
     private String CPF;
 
     private LocalDate dataNascimento;
-    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
-    private PessoaJuridica empresa;
+    private Pessoa empresa;
 
     @Override
     public boolean equals(Object o) {
@@ -54,14 +54,12 @@ public class PessoaFisica extends Pessoa {
     }
 
     @Override
-    public PessoaJuridica getEmpresa() {
+    public Pessoa getEmpresa() {
         return empresa;
     }
 
     @Override
-    public void setEmpresa(PessoaJuridica empresa) {
+    public void setEmpresa(Pessoa empresa) {
         this.empresa = empresa;
     }
-
-
 }

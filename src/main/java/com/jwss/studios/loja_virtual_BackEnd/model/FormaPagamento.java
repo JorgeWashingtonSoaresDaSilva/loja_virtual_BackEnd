@@ -20,7 +20,7 @@ public class FormaPagamento implements Serializable {
     private Long id;
     @Column(nullable = false)
     private String Descricao;
-    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
     private Pessoa empresa;
 

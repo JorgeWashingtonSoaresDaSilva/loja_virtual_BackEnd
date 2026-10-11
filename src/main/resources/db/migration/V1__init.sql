@@ -307,7 +307,7 @@ CREATE TABLE public.pessoa
 (
     id        bigint                 NOT NULL,
     email     character varying(255) NOT NULL,
-    enderecos bytea[],
+    enderecos jsonb,
     nome      character varying(255) NOT NULL,
     telefone  character varying(255) NOT NULL
 );
