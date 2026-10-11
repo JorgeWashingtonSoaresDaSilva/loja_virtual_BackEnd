@@ -4,19 +4,24 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
+
 @Entity
 @Table(name = "marca_produto")
-@SequenceGenerator(name = "seq_marca_produto")
-public class MarcaProduto  implements Serializable {
+@SequenceGenerator(name = "seq_marca_produto", sequenceName = "seq_marca_produto", allocationSize = 1, initialValue = 1)
+public class MarcaProduto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_produto_marca")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_marca_produto")
     private Long id;
-
-    private  String nomeDesc;
+    @Column(nullable = false)
+    private String nomeDesc;
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
     public Long getId() {
         return id;
@@ -32,5 +37,25 @@ public class MarcaProduto  implements Serializable {
 
     public void setNomeDesc(String nomeDesc) {
         this.nomeDesc = nomeDesc;
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MarcaProduto that = (MarcaProduto) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
