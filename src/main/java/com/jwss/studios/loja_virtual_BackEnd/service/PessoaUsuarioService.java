@@ -1,10 +1,10 @@
 package com.jwss.studios.loja_virtual_BackEnd.service;
 
+import com.jwss.studios.loja_virtual_BackEnd.model.Endereco;
 import com.jwss.studios.loja_virtual_BackEnd.model.PessoaJuridica;
 import com.jwss.studios.loja_virtual_BackEnd.model.Usuario;
 import com.jwss.studios.loja_virtual_BackEnd.repository.PessoaRepository;
 import com.jwss.studios.loja_virtual_BackEnd.repository.UsuarioRepository;
-import org.springframework.beans.CachedIntrospectionResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class PessoaUsuarioService {
@@ -24,25 +25,48 @@ public class PessoaUsuarioService {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private ServiceSendEmail serviceSendEmail;
+    // 1. INJETE O ENTITYMANAGER AQUI:
+    @jakarta.persistence.PersistenceContext
+    private jakarta.persistence.EntityManager entityManager;
 
     @Transactional
     public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica){
-        // CORREÇÃO AQUI: Garante que os endereços possuam as referências obrigatórias
-        if (pessoaJuridica.getEnderecos() != null) {
-            for (int i = 0; i < pessoaJuridica.getEnderecos().size(); i++) {
-                // Vincula o endereço à Pessoa dona dele
-                pessoaJuridica.getEnderecos().get(i).setPessoa(pessoaJuridica);
 
-                // Vincula o endereço à Empresa (que neste caso de cadastro é a própria PJ)
-                pessoaJuridica.getEnderecos().get(i).setEmpresa(pessoaJuridica);
+        // 1. Isola os endereços temporariamente para evitar cascata prematura
+        List<Endereco> enderecosTemporarios = pessoaJuridica.getEnderecos();
+        pessoaJuridica.setEnderecos(new java.util.ArrayList<>());
+
+        // 2. Garante que o campo empresa está null para o primeiro Insert passar livre pelo JPA
+        pessoaJuridica.setEmpresa(null);
+
+        // 3. Salva a Pessoa Jurídica no banco (Gera o ID na tabela pessoa e pessoa_juridica)
+        pessoaJuridica = pessoaRepository.saveAndFlush(pessoaJuridica);
+
+        // 4. Agora que ela possui ID no banco, usamos o JdbcTemplate para injetar o empresa_id nela mesma
+        // Isso evita que o JPA reclame de objeto transiente ou cíclico
+        String sqlUpdateEmpresa = "UPDATE pessoa SET empresa_id = ? WHERE id = ?";
+        jdbcTemplate.update(sqlUpdateEmpresa, pessoaJuridica.getId(), pessoaJuridica.getId());
+
+        // Sincroniza o estado no objeto Java atualizado
+        pessoaJuridica.setEmpresa(pessoaJuridica);
+
+        // 5. Vincula os endereços agora que a pessoa possui ID e Empresa válidos no banco
+        if (enderecosTemporarios != null && !enderecosTemporarios.isEmpty()) {
+            for (Endereco end : enderecosTemporarios) {
+                end.setPessoa(pessoaJuridica);
+                end.setEmpresa(pessoaJuridica); // Vincula à empresa criada
             }
+            // Devolve os endereços para a entidade
+            pessoaJuridica.getEnderecos().addAll(enderecosTemporarios);
+
+            // Salva os endereços via cascata atualizando a árvore do JPA
+            pessoaJuridica = pessoaRepository.saveAndFlush(pessoaJuridica);
         }
 
-        pessoaJuridica =  pessoaRepository.save(pessoaJuridica);
+        // Restante do seu código original (Geração de usuário u1_0, envio de e-mail, etc) ...
         Usuario usuarioPj = usuarioRepository.findByPessoa(pessoaJuridica.getId(), pessoaJuridica.getEmail());
 
-
-        if (usuarioPj == null){
+        if (usuarioPj == null) {
             // consulta se tem uma constraint no banco
             String constraint = usuarioRepository.ConsultaConstraintAcesso();
             if (constraint != null){
@@ -68,7 +92,7 @@ public class PessoaUsuarioService {
             usuarioRepository.insereAcessoUserPj(usuarioPj.getId());
            // mensagem do email
             StringBuilder mensagemHtml = new StringBuilder();
-            mensagemHtml.append("<b>Segue abaixo seus dados de acesso para loja virtual</b>");
+            mensagemHtml.append("<b>Segue abaixo seus dados de acesso para loja virtual</b><br/>");
             mensagemHtml.append("<b>Login:</b>"+pessoaJuridica.getEmail()+" <br/>");
             mensagemHtml.append("<b>Senha: </b> "+senha+"<br/><br/>");
             mensagemHtml.append("Obrigado!");
@@ -83,6 +107,11 @@ public class PessoaUsuarioService {
 
 
         }
+        // 2. ADICIONE ESSA ATUALIZAÇÃO ANTES DO RETURN:
+        // Salva qualquer estado pendente e força o Hibernate a recarregar a árvore
+        // de relacionamentos polimórficos limpa do banco de dados, matando o erro do Jackson.
+        pessoaRepository.saveAndFlush(pessoaJuridica);
+        entityManager.refresh(pessoaJuridica);
         return pessoaJuridica;
     }
 

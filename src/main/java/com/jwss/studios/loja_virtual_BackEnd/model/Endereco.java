@@ -1,6 +1,6 @@
 package com.jwss.studios.loja_virtual_BackEnd.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import com.jwss.studios.loja_virtual_BackEnd.enums.TipoEndereco;
 import jakarta.persistence.*;
 
@@ -35,11 +35,12 @@ public class Endereco implements Serializable {
     @JsonIgnore
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+    @JsonIgnoreProperties({"enderecos", "empresa"})
     private Pessoa pessoa;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoEndereco tipoEndereco;
-    @JsonIgnore
+
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
     private Pessoa empresa;
@@ -123,11 +124,11 @@ public class Endereco implements Serializable {
     public void setTipoEndereco(TipoEndereco tipoEndereco) {
         this.tipoEndereco = tipoEndereco;
     }
-
+    @JsonIgnore
     public Pessoa getEmpresa() {
         return empresa;
     }
-
+    @JsonProperty("empresa")
     public void setEmpresa(Pessoa empresa) {
         this.empresa = empresa;
     }

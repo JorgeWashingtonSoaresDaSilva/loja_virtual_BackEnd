@@ -1,33 +1,37 @@
 package com.jwss.studios.loja_virtual_BackEnd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
 import java.io.Serial;
-
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa_juridica")
 @PrimaryKeyJoinColumn(name = "id", foreignKey = @ForeignKey(name = "pessoa_fk"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PessoaJuridica extends Pessoa implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
+
     @Column(nullable = false)
     private String cnpj;
+
     @Column(nullable = false)
     private String InscEstatual;
 
     private String InscMunicipal;
+
     @Column(nullable = false)
     private String nomeFantasia;
+
     @Column(nullable = false)
     private String razaoSocial;
 
     private String categoria;
-    @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
-    private Pessoa empresa;
+
+    // REMOVIDO: O atributo "empresa" foi deletado daqui pois já existe na classe pai Pessoa!
 
     public String getCnpj() {
         return cnpj;
@@ -77,15 +81,7 @@ public class PessoaJuridica extends Pessoa implements Serializable {
         this.categoria = categoria;
     }
 
-    @Override
-    public Pessoa getEmpresa() {
-        return empresa;
-    }
-
-    @Override
-    public void setEmpresa(Pessoa empresa) {
-        this.empresa = empresa;
-    }
+    // REMOVIDOS: Os métodos getEmpresa() e setEmpresa() foram deletados daqui!
 
     @Override
     public boolean equals(Object o) {

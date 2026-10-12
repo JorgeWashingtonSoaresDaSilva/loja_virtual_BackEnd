@@ -1,5 +1,6 @@
 package com.jwss.studios.loja_virtual_BackEnd.model;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -11,6 +12,11 @@ import java.util.Objects;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa", initialValue = 1, allocationSize = 1)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = PessoaJuridica.class, names = {"JURIDICA", "PessoaJuridica", "pj", "PJ"}),
+        // ATIVE OU ADICIONE ESSA LINHA PARA A PESSOA FÍSICA:
+        @JsonSubTypes.Type(value = PessoaFisica.class, names = {"FISICA", "PessoaFisica", "pf", "PF"})
+})
 public abstract class Pessoa implements Serializable {
 
     @Serial
@@ -29,12 +35,14 @@ public abstract class Pessoa implements Serializable {
     private String tipoPessoa;
 
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"pessoa", "empresa"})
     private List<Endereco> enderecos = new ArrayList<Endereco>();
 
-    @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
     public List<Endereco> getEnderecos() {
         return enderecos;
     }
+
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
     private Pessoa empresa;
@@ -74,11 +82,12 @@ public abstract class Pessoa implements Serializable {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-
+    // ADICIONE A ANOTAÇÃO DE DESSERIALIZAÇÃO NO GETTER TAMBÉM:
+    @JsonIgnore
     public Pessoa getEmpresa() {
         return empresa;
     }
-
+    @JsonProperty("empresa")
     public void setEmpresa(Pessoa empresa) {
         this.empresa = empresa;
     }

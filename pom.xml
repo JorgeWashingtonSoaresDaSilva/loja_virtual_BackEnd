@@ -87,6 +87,7 @@
             <scope>runtime</scope>
         </dependency>
 
+
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>

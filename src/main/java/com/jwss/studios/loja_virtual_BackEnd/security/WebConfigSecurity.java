@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // Substitui a antiga @EnableGlobalMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true) // Substitui a antiga @EnableGlobalMethodSecurity
 public class WebConfigSecurity {
 
     @Autowired
@@ -44,11 +44,11 @@ public class WebConfigSecurity {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                // 3. Regras de autorização usando a nova sintaxe de expressões lambda e requestMatchers
+                // 3. Regras de autorização usando a nova sintaxe
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/index").permitAll()
-
+                        .requestMatchers(HttpMethod.POST, "/salvarPj", "/pessoa/salvarPj").permitAll() // Rota pública
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated() // Qualquer outra rota exige token
                 )
@@ -60,18 +60,25 @@ public class WebConfigSecurity {
                         .invalidateHttpSession(true)
                 );
 
+        // ==========================================
+        // CORREÇÃO ESSENCIAL DA ORDEM DOS FILTROS:
+        // ==========================================
 
-        // 5. Inserção na ordem correta para o Spring Boot 4
+        // 1º O filtro de autenticação de APIs (JWT) valida se há tokens para as rotas protegidas
+        http.addFilterBefore(new JwtApiAuthenticacaoFilter(tokenAutenticacaoService), UsernamePasswordAuthenticationFilter.class);
 
-        // Segundo: O filtro de API roda depois, validando os tokens das demais rotas
-        http.addFilterAfter(new JwtApiAuthenticacaoFilter(tokenAutenticacaoService), UsernamePasswordAuthenticationFilter.class);
+        // 2º CORREÇÃO: Criamos a instância do LoginFilter
+        JWTLoginFilter loginFilter = new JWTLoginFilter("/login", authManager, tokenAutenticacaoService);
 
-        // Segundo: Deixamos o filtro de login interceptar a rota /login
-        http.addFilterBefore(new JWTLoginFilter("/login", authManager, tokenAutenticacaoService), UsernamePasswordAuthenticationFilter.class);
+        // IMPORTANTE: Dizemos ao Spring para usar o mesmo gerenciador do contexto global
+        loginFilter.setAuthenticationManager(authManager);
 
+        // Inserimos o filtro de login ANTES do filtro padrão de autenticação de formulários do Spring
+        http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
     // Bean necessário para gerenciar o processo de autenticação e criptografia de senhas
     @Bean

@@ -23,20 +23,25 @@ public class JwtApiAuthenticacaoFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        // 1. IGNORA A ROTA DE LOGIN: Permite que a requisição de login passe sem exigir token anterior
-        /*if ("/login".equals(request.getServletPath())) {
+        String requestURI = request.getRequestURI();
+
+        // SE FOR A ROTA DE CADASTRO, IGNORA A VALIDAÇÃO DO FILTRO JWT E SEGUE O FLUXO PÚBLICO
+        if (requestURI.contains("/salvarPj")) {
             filterChain.doFilter(request, response);
-            return;
-        }*/
+            return; // O fluxo morre aqui para rotas públicas, não atingindo o try/catch
+        }
 
         try {
             // 2. Extrai o token do cabeçalho "Authorization", valida no banco e retorna o usuário com as Roles
             Authentication authentication = tokenAutenticacaoService.getAuthentication(request, response);
 
-            // 3. Se o token for válido e o usuário possuir acessos, injeta o contexto no Spring Security 7
+            // 3. Se o token for válido e o usuário possuir acessos, injeta o contexto no Spring Security
             if (authentication != null) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+
+            // CORREÇÃO: O fluxo normal para rotas seguras deve continuar estritamente AQUI
+            filterChain.doFilter(request, response);
 
         } catch (Exception e) {
             // Garante que o contexto seja limpo caso o token esteja corrompido ou expirado
@@ -46,12 +51,8 @@ public class JwtApiAuthenticacaoFilter extends OncePerRequestFilter {
             // Escreve a mensagem amigável para o cliente
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\"Ocorreu um erro no sistema avise o administrador:\"}"+"\n"+ e.getMessage());
+            response.getWriter().write("{\"Ocorreu um erro no sistema avise o administrador:\"}" + "\n" + e.getMessage());
             response.getWriter().flush();
-
         }
-
-        // Continua o fluxo normal da requisição para chegar até o Controller correspondente
-        filterChain.doFilter(request, response);
     }
 }
