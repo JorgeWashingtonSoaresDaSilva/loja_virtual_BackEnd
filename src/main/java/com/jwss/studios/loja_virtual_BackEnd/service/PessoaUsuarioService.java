@@ -90,6 +90,7 @@ public class PessoaUsuarioService {
 
             // cadastra o acesso novo usuario
             usuarioRepository.insereAcessoUserPj(usuarioPj.getId());
+            usuarioRepository.insereAcessoUserPj(usuarioPj.getId(),"ROLE_ADMIN");
            // mensagem do email
             StringBuilder mensagemHtml = new StringBuilder();
             mensagemHtml.append("<b>Segue abaixo seus dados de acesso para loja virtual</b><br/>");

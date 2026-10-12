@@ -39,7 +39,7 @@ public class Usuario implements UserDetails {
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
-
+    
     private LocalDate dataAtualSenha;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_acesso", uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "acesso_id"},

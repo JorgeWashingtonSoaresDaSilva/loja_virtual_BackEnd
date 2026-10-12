@@ -25,7 +25,7 @@ public class TestePessoaUsuario {
 
         pessoaJuridica.setCnpj(""+ Calendar.getInstance().getTimeInMillis());
         pessoaJuridica.setNome("Jorge ");
-        pessoaJuridica.setEmail("jwss486@gmail.com");
+        pessoaJuridica.setEmail("js486washington@gmail.com");
         pessoaJuridica.setTelefone("4564567800");
         pessoaJuridica.setInscEstatual("4545s656");
         pessoaJuridica.setInscMunicipal("3434357877678");
