@@ -18,18 +18,18 @@ public class PessoaFisica extends Pessoa {
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false)
-    private String CPF;
+    private String cpf;
 
     private LocalDate dataNascimento;
 
     // REMOVIDO: O atributo "empresa" foi deletado daqui pois já é herdado do pai!
 
     public String getCPF() {
-        return CPF;
+        return cpf;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setCPF(String cpf) {
+        this.cpf = cpf;
     }
 
     public LocalDate getDataNascimento() {
@@ -46,11 +46,11 @@ public class PessoaFisica extends Pessoa {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         PessoaFisica that = (PessoaFisica) o;
-        return Objects.equals(CPF, that.CPF);
+        return Objects.equals(cpf, that.cpf);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(CPF);
+        return Objects.hashCode(cpf);
     }
 }
