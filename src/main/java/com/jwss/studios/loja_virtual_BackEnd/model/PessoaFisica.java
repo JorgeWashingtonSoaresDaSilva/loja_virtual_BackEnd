@@ -2,6 +2,8 @@ package com.jwss.studios.loja_virtual_BackEnd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.br.CPF;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ public class PessoaFisica extends Pessoa {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @CPF(message = "CPF está inválido")
     @Column(nullable = false)
     private String cpf;
 

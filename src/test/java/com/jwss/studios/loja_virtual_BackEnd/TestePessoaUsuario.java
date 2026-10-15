@@ -78,10 +78,10 @@ public class TestePessoaUsuario {
         PessoaJuridica pessoaJuridica = pessoaRepository.existeCNPJCadastrado("86275669000101");
         PessoaFisica pessoafisica = new  PessoaFisica();
 
-        pessoafisica.setCPF("356.150.200-83");
-        pessoafisica.setNome("Jorge ");
+        pessoafisica.setCPF("850.610.140-90");
+        pessoafisica.setNome("");
         pessoafisica.setDataNascimento(LocalDate.of(1994, 3, 17));
-        pessoafisica.setEmail("js486washington@gmail.com");
+        pessoafisica.setEmail("js486shington@gmail.com");
         pessoafisica.setTelefone("4564567800");
         pessoafisica.setEmpresa(pessoaJuridica);
         pessoafisica.setTipoPessoa("FISICA");

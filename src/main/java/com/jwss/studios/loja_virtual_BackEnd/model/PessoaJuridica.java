@@ -2,6 +2,8 @@ package com.jwss.studios.loja_virtual_BackEnd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.br.CNPJ;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,6 +17,7 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @CNPJ(message = "CNPJ está inválido")
     @Column(nullable = false)
     private String cnpj;
 

@@ -7,6 +7,7 @@ import com.jwss.studios.loja_virtual_BackEnd.repository.PessoaRepository;
 import com.jwss.studios.loja_virtual_BackEnd.service.PessoaUsuarioService;
 import com.jwss.studios.loja_virtual_BackEnd.util.ValidaCNPJ;
 import com.jwss.studios.loja_virtual_BackEnd.util.ValidaCPF;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,9 @@ public class PessoaController {
 
     @ResponseBody
     @PostMapping(value = "**/salvarPj")
-    public ResponseEntity<PessoaJuridica>salvarPj(@RequestBody PessoaJuridica pessoaJuridica) throws ExceptionMentoriaJava {
+    public ResponseEntity<PessoaJuridica>salvarPj(@RequestBody @Valid PessoaJuridica pessoaJuridica) throws ExceptionMentoriaJava {
+
+
         if (pessoaJuridica == null){
             throw new ExceptionMentoriaJava("Pessoa juridíca não pode ser null");
         }
@@ -44,7 +47,9 @@ public class PessoaController {
     }
     @ResponseBody
     @PostMapping(value = "**/salvarPf")
-    public ResponseEntity<PessoaFisica>salvarPf(@RequestBody PessoaFisica pessoaFisica) throws ExceptionMentoriaJava {
+    public ResponseEntity<PessoaFisica>salvarPf(@RequestBody @Valid PessoaFisica pessoaFisica) throws ExceptionMentoriaJava {
+
+
         if (pessoaFisica == null){
             throw new ExceptionMentoriaJava("Pessoa fisica não pode ser null");
         }
