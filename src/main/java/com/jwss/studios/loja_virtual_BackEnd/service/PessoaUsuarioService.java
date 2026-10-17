@@ -4,6 +4,7 @@ import com.jwss.studios.loja_virtual_BackEnd.model.Endereco;
 import com.jwss.studios.loja_virtual_BackEnd.model.PessoaFisica;
 import com.jwss.studios.loja_virtual_BackEnd.model.PessoaJuridica;
 import com.jwss.studios.loja_virtual_BackEnd.model.Usuario;
+import com.jwss.studios.loja_virtual_BackEnd.model.dto.CepDTO;
 import com.jwss.studios.loja_virtual_BackEnd.repository.PessoaFisicaRepository;
 import com.jwss.studios.loja_virtual_BackEnd.repository.PessoaRepository;
 import com.jwss.studios.loja_virtual_BackEnd.repository.UsuarioRepository;
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -192,5 +194,10 @@ public class PessoaUsuarioService {
 
         return pessoaFisica;
     }
+
+    public CepDTO consultaCep(String cep){
+        return new RestTemplate().getForEntity("https://viacep.com.br/ws/"+cep+"/json/",CepDTO.class).getBody();
+    }
+
 
 }
