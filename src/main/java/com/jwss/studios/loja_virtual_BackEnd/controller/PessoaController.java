@@ -6,6 +6,7 @@ import com.jwss.studios.loja_virtual_BackEnd.model.PessoaFisica;
 import com.jwss.studios.loja_virtual_BackEnd.model.PessoaJuridica;
 import com.jwss.studios.loja_virtual_BackEnd.model.dto.CepDTO;
 import com.jwss.studios.loja_virtual_BackEnd.repository.EnderecoRepository;
+import com.jwss.studios.loja_virtual_BackEnd.repository.PessoaFisicaRepository;
 import com.jwss.studios.loja_virtual_BackEnd.repository.PessoaRepository;
 import com.jwss.studios.loja_virtual_BackEnd.service.PessoaUsuarioService;
 import com.jwss.studios.loja_virtual_BackEnd.util.ValidaCNPJ;
@@ -16,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class PessoaController {
     @Autowired
@@ -24,6 +27,8 @@ public class PessoaController {
     private PessoaRepository pessoaRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
+    @Autowired
+    private PessoaFisicaRepository pessoaFisicaRepository;
 
     @ResponseBody
     @GetMapping(value = "**/consultaCep/{cep}")
@@ -80,6 +85,21 @@ public class PessoaController {
         return new ResponseEntity<>(pessoaJuridica, HttpStatus.OK);
     }
     @ResponseBody
+    @GetMapping(value = "**/consultaPjPorNome/{nome}")
+    public ResponseEntity<List<PessoaJuridica>> consultaPjPorNome(@PathVariable("nome") String nome){
+        List<PessoaJuridica> juridicas = pessoaRepository.pesquisaPorNomePJ(nome.trim().toUpperCase());
+
+        return new ResponseEntity<List<PessoaJuridica>>(juridicas, HttpStatus.OK);
+    }
+    @ResponseBody
+    @GetMapping(value = "**/consultaPjPorCnpj/{cnpj}")
+    public ResponseEntity<List<PessoaJuridica>> consultaPjPorCnpj(@PathVariable("cnpj") String cnpj) {
+        List<PessoaJuridica> juridicas = pessoaRepository.existeCNPJCadastradoList(cnpj);
+        return new ResponseEntity<List<PessoaJuridica>>(juridicas, HttpStatus.OK);
+    }
+
+
+    @ResponseBody
     @PostMapping(value = "**/salvarPf")
     public ResponseEntity<PessoaFisica>salvarPf(@RequestBody @Valid PessoaFisica pessoaFisica) throws ExceptionMentoriaJava {
 
@@ -97,6 +117,20 @@ public class PessoaController {
         pessoaFisica = pessoaUsuarioService.salvarPessoaFisica(pessoaFisica);
 
         return new ResponseEntity<PessoaFisica>(pessoaFisica, HttpStatus.OK);
+    }
+    @ResponseBody
+    @GetMapping(value = "**/consultaPfPorNome/{nome}")
+    public ResponseEntity<List<PessoaFisica>> consultaPorNome(@PathVariable("nome") String nome){
+       List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
+
+       return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
+    }
+    @ResponseBody
+    @GetMapping(value = "**/consultaPfPorCpf/{cpf}")
+    public ResponseEntity<List<PessoaFisica>> consultaPfPorcpf(@PathVariable("cpf") String cpf){
+        List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorCPF(cpf);
+
+        return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
     }
 
 
