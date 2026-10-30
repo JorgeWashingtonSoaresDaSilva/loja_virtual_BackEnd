@@ -1,10 +1,12 @@
 package com.jwss.studios.loja_virtual_BackEnd.controller;
 
 import com.jwss.studios.loja_virtual_BackEnd.ExceptionMentoriaJava;
+import com.jwss.studios.loja_virtual_BackEnd.enums.TipoPessoa;
 import com.jwss.studios.loja_virtual_BackEnd.model.Endereco;
 import com.jwss.studios.loja_virtual_BackEnd.model.PessoaFisica;
 import com.jwss.studios.loja_virtual_BackEnd.model.PessoaJuridica;
 import com.jwss.studios.loja_virtual_BackEnd.model.dto.CepDTO;
+import com.jwss.studios.loja_virtual_BackEnd.model.dto.ConsultaCnpjDTO;
 import com.jwss.studios.loja_virtual_BackEnd.repository.EnderecoRepository;
 import com.jwss.studios.loja_virtual_BackEnd.repository.PessoaFisicaRepository;
 import com.jwss.studios.loja_virtual_BackEnd.repository.PessoaRepository;
@@ -37,6 +39,13 @@ public class PessoaController {
 
        return new ResponseEntity<>(cepDTO, HttpStatus.OK);
     }
+    @ResponseBody
+    @GetMapping(value = "**/consultaCnpjReceitaWS/{cnpj}")
+    public ResponseEntity<ConsultaCnpjDTO>consultaCnpjReceitaWS(@PathVariable("cnpj") String cnpj ){
+        ConsultaCnpjDTO consultaCnpjDTO = pessoaUsuarioService.consultaCnpjReceitaWS(cnpj);
+
+        return new ResponseEntity<>(consultaCnpjDTO, HttpStatus.OK);
+    }
 
     @ResponseBody
     @PostMapping(value = "**/salvarPj")
@@ -45,6 +54,9 @@ public class PessoaController {
 
         if (pessoaJuridica == null){
             throw new ExceptionMentoriaJava("Pessoa juridíca não pode ser null");
+        }
+        if(pessoaJuridica.getTipoPessoa() == null){
+            throw new ExceptionMentoriaJava("Informe o tipo Juridico ou Fornecedor de Loja");
         }
         if (pessoaJuridica.getId() == null && pessoaRepository.existeCNPJCadastrado(pessoaJuridica.getCnpj()) != null) {
           throw  new ExceptionMentoriaJava("Já exíste CNPJ cadastrado com esse número:"+ pessoaJuridica.getCnpj());
@@ -106,6 +118,9 @@ public class PessoaController {
 
         if (pessoaFisica == null){
             throw new ExceptionMentoriaJava("Pessoa fisica não pode ser null");
+        }
+        if(pessoaFisica.getTipoPessoa() == null){
+            pessoaFisica.setTipoPessoa(TipoPessoa.FISICA.name());
         }
         if (pessoaFisica.getId() == null && pessoaRepository.existeCPFCadastrado(pessoaFisica.getCPF()) != null) {
             throw  new ExceptionMentoriaJava("Já exíste CPF cadastrado com esse número:"+ pessoaFisica.getCPF());
