@@ -1,0 +1,28 @@
+# Build outputs
+target/
+*.class
+*.jar
+*.war
+
+# IDE files
+.idea/
+*.iws
+*.iml
+
+# Environment specific
+*.env
+local.properties
+
+# Database backup
+*.db
+*.sql
+
+# Logs
+*.log
+
+# OS specific
+.DS_Store
+/.m2/
+
+# ⚠️ Credenciais sensíveis - NÃO COMITAR
+src/main/java/com/jwss/studios/loja_virtual_BackEnd/service/ServiceSendEmail.java

@@ -2,7 +2,7 @@ package com.jwss.studios.loja_virtual_BackEnd.service;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Value;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -12,6 +12,12 @@ import java.util.Properties;
 @Service
 public class ServiceSendEmail {
 
+    // Injetado do application.properties (spring.mail.username e spring.mail.password)
+    @Value("${spring.mail.username}")
+    private String userName;
+
+    @Value("${spring.mail.password}")
+    private String password;
 
     @Async
     public void enviarEmailHtml(String assunto, String mensagem, String emailDestino) throws MessagingException, UnsupportedEncodingException {
