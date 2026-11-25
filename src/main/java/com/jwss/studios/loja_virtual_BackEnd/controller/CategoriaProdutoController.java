@@ -27,6 +27,9 @@ public class CategoriaProdutoController {
         if (categoriaProduto.getEmpresa() == null || categoriaProduto.getEmpresa().getId() <= 0 || categoriaProduto.getEmpresa().getId() == null) {
             throw new ExceptionMentoriaJava("Empresa é obrigatória para cadastro de categoria de produto");
         }
+        if(categoriaProdutoRepository.existeCategoria(categoriaProduto.getNomeDesc().trim().toUpperCase())){
+            throw new ExceptionMentoriaJava("Não pode cadastrar categoria com mesmo nome.");
+        }
 
         CategoriaProduto categoriaSalva = categoriaProdutoRepository.save(categoriaProduto);
         CategoriaProdutoDTO categoriaProdutoDTO = new CategoriaProdutoDTO();
